@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        position: relative;
+        width:30px;
+        height:30px;
+    }
+    .box div{
+         width:10px;
+         height:10px;
+         background: black;
+         border:1px solid white;
+         box-sizing:border-box;
+    }
+    .one{
+        position: absolute;
+        top:0;
+        left:0;
+        -webkit-animation-name: x1;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear; 
+    }
+    .two{
+        position: absolute;
+        top:0;
+        left:20px;
+        -webkit-animation-name: x2;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear; 
+    }
+    .three{
+        position: absolute;
+        top:20px;
+        left:0;
+        -webkit-animation-name: x3;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear; 
+    }
+    .four{
+        position: absolute;
+        top:20px;
+        left:20px;
+        -webkit-animation-name: x4;
+        -webkit-animation-duration: 1s;
+        -webkit-animation-iteration-count: infinite;
+        -webkit-animation-timing-function: linear; 
+    }
+    @-webkit-keyframes x1 { 
+        0% { left:0;top:0 ;display: block;}
+        50% { left:6px;top:6px ;display: none;} 
+        100% {left:3px;top:3px}
+        }
+        @-webkit-keyframes x2 { 
+        0% { left:20px;top:0px ;display: block;}
+        50% { left:14px;;top:6px ;display: none; } 
+        100% {left:17px;top:3px}
+        }
+        @-webkit-keyframes x3 { 
+        0% { left:0 ;top:20px;display: block;} 
+        50% { left:6px;;top:14px ;display: none;} 
+        100% {left:3px;top:17px}
+        }
+        @-webkit-keyframes x4 { 
+        0%  { left:20px;top:20px ;display: block;}
+        50%{ left:14px;;top:14px ;display: none;} 
+        100% {left:17px;top:17px}
+        }
+</style>
+<body>
+    <div class="box">
+        <div class="one"></div>
+        <div class="two"></div>
+        <div class="three"></div>
+        <div class="four"></div>
+    </div>
+</body>
+</html>

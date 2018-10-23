@@ -1,0 +1,15 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/logs/main",
+    "pages/counter/main",
+    "pages/home/main",
+    "pages/goods/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Luce-Mio",
+    "navigationBarTextStyle": "black"
+  }
+}
