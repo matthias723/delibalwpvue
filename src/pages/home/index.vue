@@ -174,7 +174,7 @@ export default {
   height:285px;
 }
 .content{
-  padding-top:80px;
+  padding-top:60px;
   width:100%;
   display:flex;
   background:white;
