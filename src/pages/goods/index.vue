@@ -1,5 +1,6 @@
 <template>
 <div  class="contain">
+<popup :isShow="pop"></popup>
   <turntable :list="lists" v-if="!isShow" @changePic="picChange"></turntable>
   <my-Loading :show="isShow"></my-Loading>
  <div class="banBox" v-show="!changing"> 
@@ -11,7 +12,7 @@
  <div class="info">
    <div class="name">{{info.name}}</div>
    <div class="price">{{info.price}}</div>
-   <div class="buy">Buy Now</div>
+   <div class="buy" @click="showMOdal">Buy Now</div>
  </div>
  <!-- <div class="goodsBox">
    <div class="good" v-for="(item, index) in lists" :index="index" :key="key">
@@ -25,12 +26,14 @@
 </div>
 </template>
 <script>
+import popup from '@/components/popup/popup'
 import myLoading from '@/components/loading/loading'
 import turntable from '@/components/turntable/turntable'
-import { setTimeout } from 'timers';
+import { setTimeout } from 'timers'
 export default {
   data () {
     return {
+      pop: false,
       value1: 0,
       banner:'',
       lists:[],
@@ -47,10 +50,15 @@ export default {
 
   components: {
    myLoading,
-   turntable
+   turntable,
+   popup
   },
 
   methods: {
+    showMOdal(){
+      console.log("------")
+       this.pop = true ;
+    },
     picChange(val){
       this.changing=true;
       let that = this ;
@@ -102,7 +110,7 @@ export default {
    align-items: center;
    .banBox{
      width:100%;
-     overflow: hidden;
+     height:210px;
     .banner{
       width:100%;
       height:210px;
@@ -126,7 +134,7 @@ export default {
     border-bottom:1px solid #e6e6e6;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     .name{
       width:60%;

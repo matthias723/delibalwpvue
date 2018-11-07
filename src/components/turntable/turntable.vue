@@ -59,13 +59,14 @@ export default {
                         let idx =ev.currentTarget.dataset.index;
                         console.log("The before deg i want is ", angle);
                         if(Math.abs(angle)>30&&idx==this.isActive){
-                             if(Math.abs(angle) > 90){
-                                this.deg= 120;
-                        }else if(Math.abs(angle) > 40 && Math.abs(angle) < 90){
-                                this.deg= 60;
-                        }else{
-                                 this.deg= 60;
-                        }
+                            //  if(Math.abs(angle) > 90){
+                            //     this.deg= 120;
+                            // }else if(Math.abs(angle) > 40 && Math.abs(angle) < 90){
+                            //         this.deg= 60;
+                            // }else{
+                            //     console.log("试试")
+                            // }
+                                    this.deg= 60;
                         if(angle>0){
                             this.angle+= this.deg
                         }else{
@@ -90,12 +91,12 @@ export default {
                             }
                         }  
                        
-
-                        }
-                       
                         console.log("The deg i want is ", this.angle);
                         this.isRoll=true;
                         this.$emit("changePic",this.isActive)
+
+                        }
+                       
                     }
                     
   },
