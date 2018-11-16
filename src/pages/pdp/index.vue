@@ -1,25 +1,26 @@
 <template>
 <div  class="contain">
-<popup :isShow="pop"></popup>
-  <turntable :list="lists" v-if="!isShow" @changePic="picChange"></turntable>
+  <!-- <popup :isShow="pop"></popup>
+  <turntable :list="lists" v-if="!isShow" @changePic="picChange"></turntable> -->
   <my-Loading :show="isShow"></my-Loading>
- <div class="banBox" v-show="!changing"> 
-   <image class="banner" mode="aspectFit" :src="info.url" @load="finished"></image>
+<div class="banBox" v-if="showPic"> 
+   <!-- <image class="banner" mode="aspectFit" :src="banner" @load="finished"></image> -->
+    <canvas canvas-id="myCanvas" style="width:375px; height: 300px;" :class="{'hideCan':banner==''}">
+      </canvas>
+      <div class="zoom" @touchstart="start1" @touchmove="move1" @touchend="end1"></div>
  </div>
- <div class="banBox" v-show="changing" > 
+ <div class="banBox" v-else > 
    <image class="holy" src="/static/dd.jpg"></image>
  </div>
  <div class="info">
-   <div class="name">{{info.name}}</div>
-   <div class="price">{{info.price}}</div>
-   <div class="buy" @click="showMOdal">Buy Now</div>
+   <div class="buy" @click="chose">upload Now</div>
+   <div class="buy" @click="showMOdal">save Now</div>
  </div>
- <!-- <div class="goodsBox">
-   <div class="good" v-for="(item, index) in lists" :index="index" :key="key">
+ <div class="goodsBox" :style="{transform: 'translateX(' +distance  + 'px)'}" @touchstart="start" @touchmove="move" @touchend="end">
+   <div class="good" v-for="(item, index) in lists" :index="index" :key="index">
      <div class="pic" v-bind:style="{ 'background-image': 'url(' + item.url + ')','background-repeat':'no-repeat','background-size':'contain'}"
 ></div>
-     <div class="title">{{item.name}}</div>
-   </div> -->
+   </div>
  </div>
 
 
@@ -33,11 +34,15 @@ import { setTimeout } from 'timers'
 export default {
   data () {
     return {
+      x1:0,
+      x2:0,
+      distance:0,
       pop: false,
       value1: 0,
       banner:'',
       lists:[],
       isShow:true,
+      showPic:false,
       info:{
         url:'/static/dd.jpg'
       },
@@ -55,9 +60,73 @@ export default {
   },
 
   methods: {
+    chose(){
+      let _this = this ;
+       wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success (res) {
+        // tempFilePath可以作为img标签的src属性显示图片
+          const tempFilePaths = res.tempFilePaths
+          console.log("---------",tempFilePaths)
+           _this.banner = tempFilePaths[0] ;
+           _this.drawImage(tempFilePaths[0]);
+            // wx.getImageInfo({
+            //   src: tempFilePaths[0],
+            //   success (res) {
+            //     console.log(res)
+            //     console.log(res.height)
+            //   }
+            // })
+          }
+        })
+    },
+    drawImage(val){
+       let my_carvas = wx.createCanvasContext('myCanvas',this);
+      // canvas.ctx = ctx;
+       my_carvas.drawImage(val,0,0,375,280);
+        my_carvas.draw()   //将之前在绘图上下文中的描述（路径、变形、样式）画到 canvas 中。
+        this.showPic= true;
+    },
+    start:function(ev) {
+        ev = ev || event;
+        ev.preventDefault();
+        console.log("start----",ev)
+        this.x1=ev.clientX;
+    },
+    move:function(ev) {
+        ev = ev || event;
+        ev.preventDefault();
+        console.log("move----",ev)
+        this.x2=ev.clientX;
+    },
+    end:function(ev){
+        ev = ev || event;
+        ev.preventDefault();
+        console.log("end----",ev)
+        if(Math.abs(this.x2-this.x1)>20){
+          this.distance+= this.x2-this.x1;
+        }
+    },
+     start1:function(ev) {
+        ev = ev || event;
+        ev.preventDefault();
+        console.log("start----",ev)
+    },
+    move1:function(ev) {
+        ev = ev || event;
+        ev.preventDefault();
+        console.log("move----",ev)
+    },
+    end1:function(ev){
+        ev = ev || event;
+        ev.preventDefault();
+        console.log("end----",ev)
+    },
     showMOdal(){
-     const url = '../pdp/main'
-      wx.navigateTo({ url })
+      console.log("----fff--")
+       this.pop = true ;
     },
     picChange(val){
       this.changing=true;
@@ -110,10 +179,26 @@ export default {
    align-items: center;
    .banBox{
      width:100%;
-     height:210px;
+     height:300px;
+     position: relative;
+     .zoom{
+       width:100px;
+       height:100px;
+       border: 1px dashed #ccc;
+       position:absolute;
+       top:50%;
+       left:50%;
+       z-index:5000;
+       background: rgba(255, 255, 255, .3);
+       transform: translate(-50%,-50%);
+     }
+     .hideCan{
+            position: fixed;
+            top:999999rpx;
+        }
     .banner{
       width:100%;
-      height:210px;
+      height:280px;
       background-size: cover;
     }
    }
@@ -128,13 +213,14 @@ export default {
    }
    .info{
      width:100%;
-     height:160px;
+     height:100px;
+     margin-top:20px;
+     margin-bottom:10px;
      text-align: center;
-    padding:15px;
     border-bottom:1px solid #e6e6e6;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     .name{
       width:60%;
@@ -153,9 +239,9 @@ export default {
       line-height: 40px;
     }
     .buy{
-      width:130px;
-      hieght:40px;
-      line-height: 40px;
+      width:110px;
+      hieght:35px;
+      line-height: 35px;
       text-align: center;
       color:white;
       font-size: 15px;
@@ -165,17 +251,24 @@ export default {
    }
    .goodsBox{
      margin-top:50px;
-     width:100%;
-     min-height:300px;
+     width:1000px;
+     min-height:250px;
      padding: 0 10px;
      display:flex;
      flex-direction:row;
      flex-wrap:wrap ;
      justify-content: space-around;
      align-items: center;
+     position: absolute;
+     left:0;
+     bottom:-60px;
+     transition: all 1s ;
      .good{
-       width:40%;
-       height:140px;
+       width:120px;
+       height:120px;
+       display: inline-block;
+       border-radius: 50%;
+       overflow: hidden;
        display: inline-block;
        margin-bottom:20px;
        display:flex;

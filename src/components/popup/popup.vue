@@ -17,7 +17,7 @@
         </div>
         <div class="info">
             <button class="btn" @click="doUpload">choose pic</button>
-            <image class="uploader-image" src="" mode="aspectFit" bindtap="previewImg" />
+            <image class="uploader-image" :src="url" mode="aspectFit" bindtap="previewImg" />
         </div>
     </div>
  </div>
@@ -39,6 +39,7 @@ export default {
   methods: {
         // 上传图片
         doUpload: function () {
+            let _this=this;
             // 选择图片
             wx.chooseImage({
             count: 1,
@@ -51,27 +52,27 @@ export default {
                 })
 
                 const filePath = res.tempFilePaths[0]
-                
+                console.log("试试吧",res)
                 // 上传图片
                 const cloudPath = 'my-image' + filePath.match(/\.[^.]+?$/)[0]
-                this.url = cloudPath
-                wx.cloud.uploadFile({
-                cloudPath,
-                filePath,
-                success: res => {
-                    console.log('[上传文件] 成功：', res)
-                },
-                fail: e => {
-                    console.error('[上传文件] 失败：', e)
-                    wx.showToast({
-                    icon: 'none',
-                    title: '上传失败',
-                    })
-                },
-                complete: () => {
-                    wx.hideLoading()
-                }
-                })
+                _this.url = filePath
+                // wx.cloud.uploadFile({
+                // cloudPath,
+                // filePath,
+                // success: res => {
+                //     console.log('[上传文件] 成功：', res)
+                // },
+                // fail: e => {
+                //     console.error('[上传文件] 失败：', e)
+                //     wx.showToast({
+                //     icon: 'none',
+                //     title: '上传失败',
+                //     })
+                // },
+                // complete: () => {
+                //     wx.hideLoading()
+                // }
+                // })
 
             },
             fail: e => {
@@ -154,6 +155,21 @@ export default {
                     }
 
                 }
+            }
+            .btn{
+                width:160px;
+                height:30px;
+                line-height: 30px;
+                text-align: center;
+                font-size:16px;
+                border-radius:7px;
+                background: rgba(0,0,0,.3);
+                color:goldenrod;
+            }
+            .uploader-image{
+                width:100%;
+                height:100px;
+                border:1px solid #ccc;
             }
         }
 </style>
