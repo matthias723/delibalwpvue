@@ -10,7 +10,7 @@
    <image class="holy" src="/static/dd.jpg"></image>
  </div>
  <div class="info">
-   <div class="name">{{info.name}}</div>
+   <div class="name" @click="toDate">{{info.name}}</div>
    <div class="price">{{info.price}}</div>
    <div class="buy" @click="showMOdal">Buy Now</div>
  </div>
@@ -57,6 +57,10 @@ export default {
   methods: {
     showMOdal(){
      const url = '../pdp/main'
+      wx.navigateTo({ url })
+    },
+    toDate(){
+     const url = '../date/main'
       wx.navigateTo({ url })
     },
     picChange(val){

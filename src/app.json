@@ -5,6 +5,7 @@
     "pages/counter/main",
     "pages/home/main",
     "pages/goods/main",
+    "pages/date/main",
     "pages/pdp/main"
   ],
   "window": {
