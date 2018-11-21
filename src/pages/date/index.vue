@@ -15,10 +15,10 @@
         <div class="">{{item.name}}</div>
       </div>
       <div class="right">
-         <div class="">{{item.status}}</div>
+         <div :class="[{ 'acred': item.sta==0},{ 'acred': item.sta==1},{ 'acblack':  item.sta==2}]">{{item.status}}</div>
       </div>
     </div>
-    <div class="bottom">Welcome , That's how i know you are so stupido </div>
+    <div   v-bind:class="bottom">{{item.des}}</div>
   </div>
 </div>
 
@@ -36,9 +36,9 @@ export default {
        idx:0,
        isShow: false,
        conList:[
-         {time:'10:00 ~ 11:00',name:'Bobby Cico',status:'已预订'},
-         {time:'12:00 ~ 13:00',name:'Pietro Mantu',status:'已核销'},
-         {time:'14:00 ~ 15:00',name:'Andrea Palani',status:'已取消'}
+         {time:'10:00 ~ 11:00',name:'Bobby Cico',status:'已预订',des:'Welcome , That\'s how i know you are so stupido',sta:1},
+         {time:'12:00 ~ 13:00',name:'Pietro Mantu',status:'已核销',des:'That\'s how i know you are so stupido'},
+         {time:'14:00 ~ 15:00',name:'Andrea Palani',status:'空闲',des:'Welcome , you are so stupido',sta:2}
        ]
     }
   },
@@ -120,6 +120,7 @@ export default {
         line-height: 36px;
       }
       .activeWeek{
+        font-size:13px;
         color:#000;
       }
       .activeDay{
@@ -177,6 +178,12 @@ export default {
             display:flex;
             justify-content: flex-end;
             align-items: flex-start;
+             .acred{
+              color:#800000;
+            }
+            .acblack{
+              color:#000;
+            }
           }
        }
        .bottom{
@@ -187,6 +194,8 @@ export default {
          text-overflow:ellipsis;
          white-space:nowrap;
        }
+
+      
     }
    }
 </style>
